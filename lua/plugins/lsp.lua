@@ -1,15 +1,15 @@
 return {
   "neovim/nvim-lspconfig",
+  version = "v2.*",
   dependencies = {
-    "williamboman/mason.nvim",
-    "williamboman/mason-lspconfig.nvim",
+    { "williamboman/mason.nvim", version = "v2.*" },
+    { "williamboman/mason-lspconfig.nvim", version = "v2.*" },
     "hrsh7th/cmp-nvim-lsp",
   },
   config = function()
     require("mason").setup()
     require("mason-lspconfig").setup({
       ensure_installed = { "clangd", "verible" },
-      automatic_installation = true,
     })
 
     local capabilities = require("cmp_nvim_lsp").default_capabilities()

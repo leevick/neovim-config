@@ -1,5 +1,6 @@
 return {
   "stevearc/conform.nvim",
+  version = "v9.*",
   opts = {
     formatters_by_ft = {
       verilog = { "verible" },

@@ -80,6 +80,9 @@ vim.keymap.set("n", "<C-S-I>", format_buffer, { desc = "Format file" })
 vim.keymap.set("v", "<C-S-I>", format_buffer, { desc = "Format selection" })
 vim.keymap.set("n", "<C-I>", format_buffer, { desc = "Format file (terminal fallback)" })
 vim.keymap.set("v", "<C-I>", format_buffer, { desc = "Format selection (terminal fallback)" })
+vim.keymap.set("n", "<C-s>", "<cmd>write<CR>", { desc = "Save buffer" })
+vim.keymap.set("i", "<C-s>", "<Esc><cmd>write<CR>a", { desc = "Save buffer" })
+vim.keymap.set("v", "<C-s>", "<Esc><cmd>write<CR>gv", { desc = "Save buffer" })
 
 local function next_diagnostic()
   vim.diagnostic.jump({

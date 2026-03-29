@@ -46,6 +46,28 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, { desc = "Format file" })
 vim.keymap.set("v", "<leader>f", vim.lsp.buf.format, { desc = "Format selection" })
 
+local function next_diagnostic()
+  vim.diagnostic.jump({
+    count = 1,
+    on_jump = function(_, bufnr)
+      vim.diagnostic.open_float(bufnr, { scope = "cursor", focus = false })
+    end,
+  })
+end
+
+local function prev_diagnostic()
+  vim.diagnostic.jump({
+    count = -1,
+    on_jump = function(_, bufnr)
+      vim.diagnostic.open_float(bufnr, { scope = "cursor", focus = false })
+    end,
+  })
+end
+
+vim.keymap.set("n", "<F8>", next_diagnostic, { desc = "Next diagnostic" })
+vim.keymap.set("n", "<S-F8>", prev_diagnostic, { desc = "Previous diagnostic" })
+vim.keymap.set("n", "<F20>", prev_diagnostic, { desc = "Previous diagnostic" })
+
 -- Git change navigation (hunks)
 vim.keymap.set("n", "]c", function()
   if vim.wo.diff then

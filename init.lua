@@ -47,22 +47,39 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 })
 
 local function format_buffer()
-  local opts = {}
+  local ok, conform = pcall(require, "conform")
 
+  if ok then
+    local opts = { lsp_fallback = true }
+    local mode = vim.fn.mode()
+
+    if mode == "v" or mode == "V" or mode == "\22" then
+      local start_pos = vim.api.nvim_buf_get_mark(0, "<")
+      local end_pos = vim.api.nvim_buf_get_mark(0, ">")
+      opts.range = {
+        start = { start_pos[1], start_pos[2] },
+        ["end"] = { end_pos[1], end_pos[2] },
+      }
+    end
+
+    conform.format(opts)
+    return
+  end
+
+  local opts = {}
   if vim.bo.filetype == "verilog" or vim.bo.filetype == "systemverilog" then
     opts.filter = function(client)
       return client.name == "verible"
     end
   end
-
   vim.lsp.buf.format(opts)
 end
 
 -- Format keybindings
-vim.keymap.set("n", "<leader>f", format_buffer, { desc = "Format file" })
-vim.keymap.set("v", "<leader>f", format_buffer, { desc = "Format selection" })
 vim.keymap.set("n", "<C-S-I>", format_buffer, { desc = "Format file" })
 vim.keymap.set("v", "<C-S-I>", format_buffer, { desc = "Format selection" })
+vim.keymap.set("n", "<C-I>", format_buffer, { desc = "Format file (terminal fallback)" })
+vim.keymap.set("v", "<C-I>", format_buffer, { desc = "Format selection (terminal fallback)" })
 
 local function next_diagnostic()
   vim.diagnostic.jump({

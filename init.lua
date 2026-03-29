@@ -45,6 +45,8 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 -- Format keybindings
 vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, { desc = "Format file" })
 vim.keymap.set("v", "<leader>f", vim.lsp.buf.format, { desc = "Format selection" })
+vim.keymap.set("n", "<C-S-I>", vim.lsp.buf.format, { desc = "Format file" })
+vim.keymap.set("v", "<C-S-I>", vim.lsp.buf.format, { desc = "Format selection" })
 
 local function next_diagnostic()
   vim.diagnostic.jump({

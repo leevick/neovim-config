@@ -1,6 +1,10 @@
 -- Basic settings
 vim.opt.number = true         -- Show line numbers
 vim.opt.relativenumber = true -- Show relative line numbers (useful for movements)
+vim.opt.tabstop = 2           -- Render tabs as 2 spaces
+vim.opt.shiftwidth = 2        -- Use 2 spaces for each step of (auto)indent
+vim.opt.softtabstop = 2       -- Insert/delete 2 spaces when pressing Tab/Backspace
+vim.opt.expandtab = true      -- Insert spaces instead of literal tab characters
 -- Use vim.opt.relativenumber = false if you want absolute numbers only
 
 -- Code folding settings

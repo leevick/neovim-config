@@ -8,7 +8,7 @@ return {
   config = function()
     require("mason").setup()
     require("mason-lspconfig").setup({
-      ensure_installed = { "clangd" },
+      ensure_installed = { "clangd", "verible" },
       automatic_installation = true,
     })
 
@@ -60,7 +60,7 @@ return {
         "--limit-results=0",
         "--header-insertion=never",
         "--background-index",
-        "-j=4",
+        "-j=20",
         "--enable-config",
       },
       filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
@@ -68,6 +68,14 @@ return {
       capabilities = capabilities,
     }
 
+    vim.lsp.config.verible = {
+      cmd = { "verible-verilog-ls" },
+      filetypes = { "verilog", "systemverilog" },
+      root_markers = { ".git" },
+      capabilities = capabilities,
+    }
+
     vim.lsp.enable("clangd")
+    vim.lsp.enable("verible")
   end,
 }

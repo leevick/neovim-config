@@ -23,6 +23,15 @@ vim.opt.foldlevel = 99                -- Start with all folds open
 vim.opt.foldlevelstart = 99           -- Start with all folds open
 vim.opt.foldenable = true             -- Enable folding
 
+vim.filetype.add({
+  extension = {
+    v = "verilog",
+    vh = "verilog",
+    sv = "systemverilog",
+    svh = "systemverilog",
+  },
+})
+
 require("config.lazy")
 
 -- Auto-reload LSP when compile_commands.json changes

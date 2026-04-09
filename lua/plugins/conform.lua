@@ -5,6 +5,7 @@ return {
     formatters_by_ft = {
       verilog = { "verible" },
       systemverilog = { "verible" },
+      python = { "ruff_format" },
     },
     formatters = {
       verible = {

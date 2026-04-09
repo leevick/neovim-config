@@ -9,7 +9,7 @@ return {
   config = function()
     require("mason").setup()
     require("mason-lspconfig").setup({
-      ensure_installed = { "clangd", "verible" },
+      ensure_installed = { "clangd", "verible", "pyright" },
     })
 
     local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -75,7 +75,24 @@ return {
       capabilities = capabilities,
     }
 
+    vim.lsp.config.pyright = {
+      cmd = { "pyright-langserver", "--stdio" },
+      filetypes = { "python" },
+      root_markers = { "pyproject.toml", "setup.py", "setup.cfg", "requirements.txt", ".git" },
+      settings = {
+        python = {
+          analysis = {
+            autoSearchPaths = true,
+            useLibraryCodeForTypes = true,
+            diagnosticMode = "workspace",
+          },
+        },
+      },
+      capabilities = capabilities,
+    }
+
     vim.lsp.enable("clangd")
     vim.lsp.enable("verible")
+    vim.lsp.enable("pyright")
   end,
 }

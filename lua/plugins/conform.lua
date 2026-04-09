@@ -6,6 +6,7 @@ return {
       verilog = { "verible" },
       systemverilog = { "verible" },
       python = { "ruff_format" },
+      markdown = { "prettier" },
     },
     formatters = {
       verible = {

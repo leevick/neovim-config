@@ -85,8 +85,10 @@ vim.keymap.set({ "n", "v" }, "<leader>fm", function()
   end
 end, { desc = "Format buffer/selection" })
 
+vim.opt.autoread = true  -- auto-reload files changed outside nvim
+
 -- Save
-vim.keymap.set({ "n", "i", "v" }, "<C-s>", "<Esc><cmd>write<CR>", { desc = "Save" })
+vim.keymap.set({ "n", "i", "v" }, "<C-s>", "<Esc><cmd>checktime | write<CR>", { desc = "Save" })
 
 -- Restore cursor position when reopening files
 vim.api.nvim_create_autocmd("BufReadPost", {

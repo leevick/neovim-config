@@ -68,10 +68,20 @@ vim.api.nvim_create_autocmd("LspAttach", {
 -- Format
 vim.keymap.set({ "n", "v" }, "<leader>fm", function()
   local ok, conform = pcall(require, "conform")
+  local opts = { lsp_fallback = true }
+  local mode = vim.fn.mode()
+  if mode == "v" or mode == "V" or mode == "\22" then
+    local start_pos = vim.api.nvim_buf_get_mark(0, "<")
+    local end_pos   = vim.api.nvim_buf_get_mark(0, ">")
+    opts.range = {
+      start  = { start_pos[1], start_pos[2] },
+      ["end"] = { end_pos[1],  end_pos[2]  },
+    }
+  end
   if ok then
-    conform.format({ lsp_fallback = true })
+    conform.format(opts)
   else
-    vim.lsp.buf.format()
+    vim.lsp.buf.format(opts)
   end
 end, { desc = "Format buffer/selection" })
 

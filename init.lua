@@ -46,6 +46,38 @@ vim.api.nvim_create_autocmd("BufWritePost", {
   end,
 })
 
+-- LSP keybindings (attached per-buffer on LspAttach)
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(ev)
+    local map = function(k, f, desc)
+      vim.keymap.set("n", k, f, { buffer = ev.buf, desc = desc })
+    end
+    map("gd",         vim.lsp.buf.definition,     "Go to definition")
+    map("gi",         vim.lsp.buf.implementation, "Go to implementation")
+    map("gy",         vim.lsp.buf.type_definition,"Go to type definition")
+    map("gr",         vim.lsp.buf.references,     "References")
+    map("K",          vim.lsp.buf.hover,          "Hover docs")
+    map("<leader>rn", vim.lsp.buf.rename,         "Rename")
+    map("<leader>ca", vim.lsp.buf.code_action,    "Code action")
+    map("<leader>e",  vim.diagnostic.open_float,  "Show diagnostics")
+    map("]d",  function() vim.diagnostic.jump({ count =  1 }) end, "Next diagnostic")
+    map("[d",  function() vim.diagnostic.jump({ count = -1 }) end, "Prev diagnostic")
+  end,
+})
+
+-- Format
+vim.keymap.set({ "n", "v" }, "<leader>fm", function()
+  local ok, conform = pcall(require, "conform")
+  if ok then
+    conform.format({ lsp_fallback = true })
+  else
+    vim.lsp.buf.format()
+  end
+end, { desc = "Format buffer/selection" })
+
+-- Save
+vim.keymap.set({ "n", "i", "v" }, "<C-s>", "<Esc><cmd>write<CR>", { desc = "Save" })
+
 -- Restore cursor position when reopening files
 vim.api.nvim_create_autocmd("BufReadPost", {
   callback = function()

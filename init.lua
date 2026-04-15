@@ -68,7 +68,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 -- Format
 vim.keymap.set({ "n", "v" }, "<leader>fm", function()
   local ok, conform = pcall(require, "conform")
-  local opts = { lsp_fallback = true }
+  local opts = { lsp_format = "fallback" }
   local mode = vim.fn.mode()
   if mode == "v" or mode == "V" or mode == "\22" then
     local start_pos = vim.api.nvim_buf_get_mark(0, "<")

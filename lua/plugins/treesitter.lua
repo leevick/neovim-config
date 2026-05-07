@@ -4,7 +4,7 @@ return {
     build = ":TSUpdate",
     event = { "BufReadPost", "BufNewFile" },
     opts = {
-      ensure_installed = { "markdown", "markdown_inline" },
+      ensure_installed = { "c", "cpp", "python", "markdown", "markdown_inline" },
       highlight = { enable = true },
       indent = { enable = true },
     },

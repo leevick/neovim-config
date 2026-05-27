@@ -13,6 +13,24 @@
 | `<leader>fm` | v/V/`^V` | Format selection        |
 | `<leader>mp` | n        | Markdown preview toggle |
 
+### SSHFS
+
+| Key          | Action                  |
+| ------------ | ----------------------- |
+| `<leader>mm` | Mount SSH host          |
+| `<leader>mu` | Unmount SSH host        |
+| `<leader>mU` | Unmount all SSH hosts   |
+| `<leader>me` | Explore mounted path    |
+| `<leader>md` | Change to mount dir     |
+| `<leader>mo` | Run command on mount    |
+| `<leader>mc` | Edit SSH config         |
+| `<leader>mr` | Reload SSH config       |
+| `<leader>mf` | Browse remote files     |
+| `<leader>mg` | Grep mounted files      |
+| `<leader>mF` | Live find over SSH      |
+| `<leader>mG` | Live grep over SSH      |
+| `<leader>mt` | Open SSH terminal       |
+
 ### LSP — buffer-local on attach
 
 | Key          | Action                 |
@@ -98,6 +116,13 @@
 | [copilot.vim](https://github.com/github/copilot.vim)                                 | GitHub Copilot                       |
 | [markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim)             | Browser preview with Mermaid support |
 | [render-markdown.nvim](https://github.com/MeanderingProgrammer/render-markdown.nvim) | Inline markdown rendering in Neovim  |
+| [sshfs.nvim](https://github.com/uhs-robert/sshfs.nvim)                               | SSHFS remote mounts and SSH actions  |
+
+## SSHFS Notes
+
+- Requires `sshfs` to be installed on the system.
+- Uses Telescope as the preferred local and remote picker.
+- Reads hosts from your existing `~/.ssh/config`.
 
 ## LSP Servers
 

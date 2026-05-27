@@ -36,6 +36,14 @@ vim.filetype.add({
   },
 })
 
+-- Allow git to operate in SSHFS-mounted directories.
+-- SSHFS presents remote files with a different UID, causing git 2.35.2+ to
+-- refuse with "dubious ownership". Overriding safe.directory here only affects
+-- git processes spawned by neovim (not the system-wide git config).
+vim.env.GIT_CONFIG_COUNT = "1"
+vim.env.GIT_CONFIG_KEY_0 = "safe.directory"
+vim.env.GIT_CONFIG_VALUE_0 = "*"
+
 require("config.lazy")
 
 -- Auto-reload LSP when compile_commands.json changes

@@ -5,6 +5,11 @@ return {
     connections = {
       sshfs_options = {
         follow_symlinks = true,
+        -- Disable directory/attribute caching so files created remotely via
+        -- SSH are visible immediately in Telescope without waiting for expiry.
+        dcache_timeout = 0,
+        entry_timeout = 0,
+        attr_timeout = 0,
       },
     },
     hooks = {

@@ -6,7 +6,11 @@ return {
       verilog = { "verible" },
       systemverilog = { "verible" },
       python = { "ruff_format" },
-      markdown = { "prettier" },
+      -- "_" is conform.nvim's fallback key: it runs for any filetype that has
+      -- no specific formatter configured above. prettier is the default here,
+      -- so e.g. markdown/json/yaml/js/css all get formatted with prettier
+      -- without needing their own entry.
+      ["_"] = { "prettier" },
     },
     formatters = {
       verible = {

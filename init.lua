@@ -1,3 +1,8 @@
+-- Use the terminal emulator's own 16-color ANSI palette instead of nvim's
+-- built-in 24-bit RGB. This makes syntax highlighting follow your terminal
+-- theme. Must be set before lazy.nvim loads plugins.
+vim.opt.termguicolors = false
+
 -- Basic settings
 vim.opt.number = true         -- Show line numbers
 vim.opt.relativenumber = true -- Show relative line numbers (useful for movements)
@@ -45,6 +50,27 @@ vim.env.GIT_CONFIG_KEY_0 = "safe.directory"
 vim.env.GIT_CONFIG_VALUE_0 = "*"
 
 require("config.lazy")
+
+-- Make nvim's background transparent so the terminal's own theme (e.g. your
+-- blue background) shows through instead of nvim painting its own color on top.
+-- Registered as a ColorScheme autocmd so it survives any future scheme change,
+-- then triggered once for the scheme that is already active.
+local function use_terminal_background()
+  -- ":highlight <group> ... NONE" only modifies the background attributes,
+  -- leaving each group's foreground color intact (unlike nvim_set_hl, which
+  -- replaces the whole group).
+  for _, group in ipairs({
+    "Normal", "NormalNC", "NormalFloat", "SignColumn", "EndOfBuffer",
+    "LineNr", "FoldColumn", "MsgArea",
+  }) do
+    vim.cmd(("highlight %s guibg=NONE ctermbg=NONE"):format(group))
+  end
+end
+
+vim.api.nvim_create_autocmd("ColorScheme", {
+  callback = use_terminal_background,
+})
+use_terminal_background()
 
 -- Auto-reload LSP when compile_commands.json changes
 vim.api.nvim_create_autocmd("BufWritePost", {

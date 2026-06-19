@@ -5,11 +5,17 @@ return {
     connections = {
       sshfs_options = {
         follow_symlinks = true,
-        -- Disable directory/attribute caching so files created remotely via
-        -- SSH are visible immediately in Telescope without waiting for expiry.
-        dcache_timeout = 0,
-        entry_timeout = 0,
-        attr_timeout = 0,
+        -- Long-lived cache: source trees change via your own edits, not
+        -- spontaneously, so stale-cache risk is low and the speed gain is big.
+        cache = "yes",
+        kernel_cache = true,
+        entry_timeout = 3600,
+        attr_timeout = 3600,
+        negative_timeout = 3600,
+        -- Keep the connection alive and reconnect on drop.
+        reconnect = true,
+        ConnectTimeout = 10,
+        ServerAliveInterval = 15,
       },
     },
     hooks = {

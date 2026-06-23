@@ -12,6 +12,12 @@ vim.opt.softtabstop = 2       -- Insert/delete 2 spaces when pressing Tab/Backsp
 vim.opt.expandtab = true      -- Insert spaces instead of literal tab characters
 -- Use vim.opt.relativenumber = false if you want absolute numbers only
 
+-- Sync the default yank/paste register with the system clipboard so that
+-- ordinary y/p (no "+ prefix) round-trips through the OS clipboard and can be
+-- pasted outside the terminal. Uses the wl-clipboard provider (wl-copy/wl-paste)
+-- on this Wayland session.
+vim.opt.clipboard = "unnamedplus"
+
 -- Code folding settings
 -- Disable folding in diff mode to avoid conflicts with zo/zc
 vim.api.nvim_create_autocmd("OptionSet", {

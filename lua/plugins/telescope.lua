@@ -32,12 +32,44 @@ return {
     local builtin = require("telescope.builtin")
     local map = function(k, f, desc) vim.keymap.set("n", k, f, { desc = desc }) end
 
+    -- Build Lua patterns matching every git submodule path, so their files are
+    -- filtered out of the picker. `git ls-files --others` (used by
+    -- show_untracked) descends into submodule working trees and reports their
+    -- files as untracked from the superproject; this excludes them.
+    local function submodule_ignore_patterns()
+      local toplevel = vim.fn.systemlist("git rev-parse --show-toplevel")[1]
+      if vim.v.shell_error ~= 0 or not toplevel or toplevel == "" then
+        return {}
+      end
+      local lines = vim.fn.systemlist({
+        "git", "config", "--file", toplevel .. "/.gitmodules", "--get-regexp", "path",
+      })
+      if vim.v.shell_error ~= 0 then
+        return {}
+      end
+      local patterns = {}
+      for _, line in ipairs(lines) do
+        -- lines look like: submodule.<name>.path <path>
+        local path = line:match("%S+%s+(.+)")
+        if path and path ~= "" then
+          local esc = path:gsub("([^%w])", "%%%1") -- escape Lua pattern magic chars
+          patterns[#patterns + 1] = "^" .. esc .. "/"
+          patterns[#patterns + 1] = "/" .. esc .. "/"
+        end
+      end
+      return patterns
+    end
+
     -- Use git_files (git ls-files) when inside a git repo — much faster than
     -- walking the filesystem. Falls back to find_files outside git repos.
     local function find_files()
       vim.fn.system("git rev-parse --git-dir")
       if vim.v.shell_error == 0 then
-        builtin.git_files({ show_untracked = true, recurse_submodules = false })
+        builtin.git_files({
+          show_untracked = true,
+          recurse_submodules = false,
+          file_ignore_patterns = submodule_ignore_patterns(),
+        })
       else
         builtin.find_files()
       end
